@@ -1,0 +1,1 @@
+This project is a library automation for my "Software Engineering Lab" course.
