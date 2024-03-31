@@ -1,10 +1,10 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import CategoryList from "../../components/Categories/CategoryList";
 
-function MemberCategoriesScreen() {
+function MemberCategoriesScreen({ navigation }) {
   return (
     <View>
-      <CategoryList />
+      <CategoryList nextPage={() => navigation.navigate("MemberBookList")} />
     </View>
   );
 }

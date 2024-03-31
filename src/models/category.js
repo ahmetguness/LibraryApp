@@ -1,9 +1,9 @@
 class Category {
-    constructor(id, title, color, img) {
-      this.id = id;
-      this.title = title;
-      this.color = color;
-      this.img = img;
+    constructor(categoryId, categoryTitle, categoryColor, categoryImg) {
+      this.categoryId = categoryId;
+      this.categoryTitle = categoryTitle;
+      this.categoryColor = categoryColor;
+      this.categoryImg = categoryImg;
     }
   }
   
