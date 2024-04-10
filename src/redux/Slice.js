@@ -10,7 +10,17 @@ const Slice = createSlice({
       state.categoryId = action.payload;
     },
   },
+
+  name: "login",
+  initialState: {
+    login: false
+  },
+  reducers: {
+    logInHandler(state, action){
+      state.login = action.payload
+    }
+  }
 });
 
 export default Slice;
-export const { selectCategory } = Slice.actions;
+export const { selectCategory, logInHandler } = Slice.actions;
