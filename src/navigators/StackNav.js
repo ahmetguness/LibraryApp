@@ -3,6 +3,7 @@ import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import BottomTabNav from "./BottomTabNav";
 import MemberCategoriesScreen from "../screens/Member/MemberCategoriesScreen";
 import MemberBookList from "../screens/Member/MemberBookList";
+import AdminHomeScreen from "../screens/Admin/AdminHomeScreen";
 
 function StackNav() {
   const Stack = createStackNavigator();
@@ -17,6 +18,7 @@ function StackNav() {
       <Stack.Screen name="LoginScreen" component={BottomTabNav} />
       <Stack.Screen name="MemberCategoriesScreen" component={MemberCategoriesScreen} />
       <Stack.Screen name="MemberBookList" component={MemberBookList} />
+      <Stack.Screen name="AdminHomeScreen" component={AdminHomeScreen} />
 
     </Stack.Navigator>
   );

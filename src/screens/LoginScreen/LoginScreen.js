@@ -1,7 +1,8 @@
-import { ImageBackground, ScrollView, StyleSheet } from "react-native";
+import { Alert, ImageBackground, ScrollView, StyleSheet } from "react-native";
 import LoginCard from "../../components/Login/LoginCard";
 import Title from "../../components/Login/Title";
 import { useSelector } from "react-redux";
+import { checkUserCredentials } from "../../services/firestoreService";
 
 function LoginScreen({ navigation, route }) {
   const { isAdmin } = route.params;
@@ -10,21 +11,45 @@ function LoginScreen({ navigation, route }) {
     : require("../../assets/catMember.png");
 
   const title = isAdmin ? "Admin" : "Member";
-  const loginInfo = useSelector((state) => state.login.loginInfo);
-  console.log(loginInfo);
+  const loginInfo = useSelector((state) => state.login.loginInfo) || {
+    userName: "",
+    password: "",
+  };
 
-  const whereToGo = isAdmin
-    ? () =>
-        loginInfo.password == "admin" && loginInfo.userName == "admin"
-          ? console.log("dogru")
-          : console.log("yanlis")
-    : () => navigation.navigate("MemberCategoriesScreen");
+  const whereToGo = async (isAdmin) => {
+    if (isAdmin) {
+      if (loginInfo.userName && loginInfo.password) {
+        try {
+          const isAdminValid = await checkUserCredentials(
+            "admin",
+            loginInfo.userName,
+            loginInfo.password
+          );
+
+          if (isAdminValid) {
+            console.log(
+              "Doğru"
+            );
+            navigation.navigate('AdminHomeScreen')
+          } else {
+            Alert.alert('Hatalı kullanıcı adı veya şifre girdiniz. Lütfen tekrar deneyin.')
+          }
+        } catch (error) {
+          console.error("Hata oluştu:", error);
+        }
+      } else {
+        console.log("Kullanıcı adı veya şifre eksik.");
+      }
+    } else {
+      navigation.navigate('MemberCategoriesScreen')
+    }
+  };
 
   return (
     <ImageBackground style={styles.root} source={backgroundImg}>
       <ScrollView>
         <Title title={title} />
-        <LoginCard onPressFunc={whereToGo} />
+        <LoginCard onPressFunc={() => whereToGo(isAdmin)} />
       </ScrollView>
     </ImageBackground>
   );
