@@ -1,9 +1,9 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import COLORS from "../../theme/colors";
 
-function InputArea({placeholder}){
+function InputArea({placeholder, value, onChangeText}){
     return <View style={styles.root} >
-        <TextInput style={styles.inputArea} placeholder={placeholder} />
+        <TextInput style={styles.inputArea} placeholder={placeholder} value={value} onChangeText={onChangeText} />
     </View>
 }
 

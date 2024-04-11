@@ -13,7 +13,11 @@ const Slice = createSlice({
 
   name: "login",
   initialState: {
-    login: false
+    loginAuth: false,
+    loginInfo: {
+      userName: '',
+      password: '',
+    }
   },
   reducers: {
     logInHandler(state, action){
