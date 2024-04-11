@@ -1,6 +1,7 @@
 import { ImageBackground, ScrollView, StyleSheet } from "react-native";
 import LoginCard from "../../components/Login/LoginCard";
 import Title from "../../components/Login/Title";
+import { useSelector } from "react-redux";
 
 function LoginScreen({ navigation, route }) {
   const { isAdmin } = route.params;
@@ -9,9 +10,14 @@ function LoginScreen({ navigation, route }) {
     : require("../../assets/catMember.png");
 
   const title = isAdmin ? "Admin" : "Member";
+  const loginInfo = useSelector((state) => state.login.loginInfo);
+  console.log(loginInfo);
 
   const whereToGo = isAdmin
-    ? () => console.log("Admin")
+    ? () =>
+        aaa.password == "admin" && aaa.userName == "admin"
+          ? console.log("dogru")
+          : console.log("yanlis")
     : () => navigation.navigate("MemberCategoriesScreen");
 
   return (

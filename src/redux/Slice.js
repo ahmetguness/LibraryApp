@@ -1,16 +1,7 @@
-const { createSlice } = require("@reduxjs/toolkit");
+// slice.js
+import { createSlice } from "@reduxjs/toolkit";
 
 const Slice = createSlice({
-  name: "book",
-  initialState: {
-    categoryId: null,
-  },
-  reducers: {
-    selectCategory(state, action) {
-      state.categoryId = action.payload;
-    },
-  },
-
   name: "login",
   initialState: {
     loginAuth: false,
@@ -20,11 +11,14 @@ const Slice = createSlice({
     }
   },
   reducers: {
-    logInHandler(state, action){
-      state.login = action.payload
-    }
-  }
+    logInHandler(state, action) {
+      state.login = action.payload;
+    },
+    setLoginInfo(state, action) {
+      state.loginInfo = action.payload;
+    },
+  },
 });
 
 export default Slice;
-export const { selectCategory, logInHandler } = Slice.actions;
+export const { logInHandler, setLoginInfo } = Slice.actions;

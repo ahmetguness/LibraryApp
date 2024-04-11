@@ -2,10 +2,19 @@ import { StyleSheet, Text, View } from "react-native";
 import InputArea from "./InputArea";
 import LoginButton from "./LoginButton";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginInfo } from "../../redux/Slice";
 
 function LoginCard({ onPressFunc }) {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    dispatch(setLoginInfo({ userName, password }));
+    onPressFunc();
+  };
+
 
   return (
     <View style={styles.root}>
@@ -19,7 +28,7 @@ function LoginCard({ onPressFunc }) {
         value={password}
         onChangeText={setPassword}
       />
-      <LoginButton buttonName={"Giriş Yap"} onPressFunc={onPressFunc} />
+      <LoginButton buttonName={"Giriş Yap"} onPressFunc={handleLogin} />
     </View>
   );
 }
