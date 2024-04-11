@@ -15,7 +15,7 @@ function LoginScreen({ navigation, route }) {
 
   const whereToGo = isAdmin
     ? () =>
-        aaa.password == "admin" && aaa.userName == "admin"
+        loginInfo.password == "admin" && loginInfo.userName == "admin"
           ? console.log("dogru")
           : console.log("yanlis")
     : () => navigation.navigate("MemberCategoriesScreen");
