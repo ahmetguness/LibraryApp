@@ -1,18 +1,28 @@
 import { FlatList, ImageBackground, StyleSheet } from "react-native";
 import CategoryCard from "./CategoryCard";
-import { CATEGORIES } from "../../assets/dummy_data/datas";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCategory } from "../../redux/Slice";
+import { listCategories } from "../../services/firestoreService";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { changeSelectedCategoryId } from "../../redux/Slice";
 
 function CategoryList({ nextPage }) {
-  const selectedId = useSelector((state) => state.book);
+  const [categories, setCategories] = useState([]);
+
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    async function fetchCategories() {
+      const categoriesData = await listCategories();
+      setCategories(categoriesData);
+    }
+
+    fetchCategories();
+  }, []);
+
   const onPressFunc = (item) => {
-    dispatch(selectCategory(item.categoryId));
+    dispatch(changeSelectedCategoryId(item));
     nextPage();
   };
-
   return (
     <ImageBackground
       style={styles.root}
@@ -20,11 +30,12 @@ function CategoryList({ nextPage }) {
     >
       <FlatList
         showsHorizontalScrollIndicator={false}
-        data={CATEGORIES}
+        data={categories}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <CategoryCard
-            categoryName={item.categoryTitle}
-            onPressFunc={() => onPressFunc(item)}
+            categoryName={item.categoryName}
+            onPressFunc={() => onPressFunc(item.id)}
           />
         )}
       />

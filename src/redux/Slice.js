@@ -1,4 +1,3 @@
-// slice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const Slice = createSlice({
@@ -6,9 +5,10 @@ const Slice = createSlice({
   initialState: {
     loginAuth: false,
     loginInfo: {
-      userName: '',
-      password: '',
-    }
+      userName: "",
+      password: "",
+    },
+    selectedCategoryId: 0,
   },
   reducers: {
     logInHandler(state, action) {
@@ -17,8 +17,12 @@ const Slice = createSlice({
     setLoginInfo(state, action) {
       state.loginInfo = action.payload;
     },
+    changeSelectedCategoryId(state, action) {
+      state.selectedCategoryId = action.payload;
+    },
   },
 });
 
 export default Slice;
-export const { logInHandler, setLoginInfo } = Slice.actions;
+export const { logInHandler, setLoginInfo, changeSelectedCategoryId } =
+  Slice.actions;

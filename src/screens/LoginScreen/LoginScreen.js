@@ -25,14 +25,12 @@ function LoginScreen({ navigation, route }) {
             loginInfo.userName,
             loginInfo.password
           );
-
           if (isAdminValid) {
-            console.log(
-              "Doğru"
-            );
-            navigation.navigate('AdminHomeScreen')
+            navigation.navigate("AdminHomeScreen");
           } else {
-            Alert.alert('Hatalı kullanıcı adı veya şifre girdiniz. Lütfen tekrar deneyin.')
+            Alert.alert(
+              "Hatalı kullanıcı adı veya şifre girdiniz. Lütfen tekrar deneyin."
+            );
           }
         } catch (error) {
           console.error("Hata oluştu:", error);
@@ -41,7 +39,19 @@ function LoginScreen({ navigation, route }) {
         console.log("Kullanıcı adı veya şifre eksik.");
       }
     } else {
-      navigation.navigate('MemberCategoriesScreen')
+      const isMemberValid = await checkUserCredentials(
+        "member",
+        loginInfo.userName,
+        loginInfo.password
+      );
+
+      if (isMemberValid) {
+        navigation.navigate("MemberCategoriesScreen");
+      } else {
+        Alert.alert(
+          "Hatalı kullanıcı adı veya şifre girdiniz. Lütfen tekrar deneyin."
+        );
+      }
     }
   };
 
