@@ -3,7 +3,7 @@ import CategoryList from "../../components/Categories/CategoryList";
 function MemberCategoriesScreen({ navigation }) {
   return (
     <View>
-      <CategoryList nextPage={() => navigation.navigate("MemberBookList")} />
+      <CategoryList nextPage={() => null} />
     </View>
   );
 }

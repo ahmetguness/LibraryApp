@@ -9,6 +9,7 @@ const Slice = createSlice({
       password: "",
     },
     selectedCategoryId: 0,
+    loggedInUserId: 0,
   },
   reducers: {
     logInHandler(state, action) {
@@ -20,9 +21,16 @@ const Slice = createSlice({
     changeSelectedCategoryId(state, action) {
       state.selectedCategoryId = action.payload;
     },
+    changeLoggedInUserId(state, action) {
+      state.loggedInUserId = action.payload;
+    },
   },
 });
 
 export default Slice;
-export const { logInHandler, setLoginInfo, changeSelectedCategoryId } =
-  Slice.actions;
+export const {
+  logInHandler,
+  setLoginInfo,
+  changeSelectedCategoryId,
+  changeLoggedInUserId,
+} = Slice.actions;

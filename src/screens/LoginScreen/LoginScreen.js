@@ -1,8 +1,12 @@
 import { Alert, ImageBackground, ScrollView, StyleSheet } from "react-native";
 import LoginCard from "../../components/Login/LoginCard";
 import Title from "../../components/Login/Title";
-import { useSelector } from "react-redux";
-import { checkUserCredentials } from "../../services/firestoreService";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  checkUserCredentials,
+  getUserId,
+} from "../../services/firestoreService";
+import { changeLoggedInUserId } from "../../redux/Slice";
 
 function LoginScreen({ navigation, route }) {
   const { isAdmin } = route.params;
@@ -16,6 +20,8 @@ function LoginScreen({ navigation, route }) {
     password: "",
   };
 
+  const dispatch = useDispatch();
+
   const whereToGo = async (isAdmin) => {
     if (isAdmin) {
       if (loginInfo.userName && loginInfo.password) {
@@ -26,6 +32,13 @@ function LoginScreen({ navigation, route }) {
             loginInfo.password
           );
           if (isAdminValid) {
+            const id = await getUserId(
+              "admin",
+              loginInfo.userName,
+              loginInfo.password
+            );
+            dispatch(changeLoggedInUserId(id));
+
             navigation.navigate("AdminHomeScreen");
           } else {
             Alert.alert(
@@ -46,6 +59,12 @@ function LoginScreen({ navigation, route }) {
       );
 
       if (isMemberValid) {
+        const id = await getUserId(
+          "member",
+          loginInfo.userName,
+          loginInfo.password
+        );
+        dispatch(changeLoggedInUserId(id));
         navigation.navigate("MemberHomeScreen");
       } else {
         Alert.alert(

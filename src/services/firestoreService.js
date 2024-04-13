@@ -1,4 +1,11 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import db from "./config";
 
 export async function checkUserCredentials(userKind, userName, password) {
@@ -22,7 +29,6 @@ export async function checkUserCredentials(userKind, userName, password) {
   return isUserValid;
 }
 
-
 export async function listCategories() {
   const categoriesRef = collection(db, "categories");
   const querySnapshot = await getDocs(categoriesRef);
@@ -45,4 +51,38 @@ export async function listBooksInCategory(categoryId) {
   });
 
   return books;
+}
+
+export async function getUserId(userKind, userName, password) {
+  const userRef = collection(db, userKind);
+  const q = query(userRef, where(`${userKind}UserName`, "==", userName));
+  const querySnapshot = await getDocs(q);
+
+  let userId = null;
+
+  querySnapshot.forEach((doc) => {
+    const userData = doc.data();
+    const passPropertyName = `${userKind}Password`;
+    if (
+      userData.hasOwnProperty(passPropertyName) &&
+      userData[passPropertyName] === password
+    ) {
+      userId = doc.id;
+    }
+  });
+
+  return userId;
+}
+export async function getUserById(userKind, userId) {
+  const userRef = collection(db, userKind);
+  const q = query(userRef, where("__name__", "==", userId)); // Firestore'da idye göre sorgu
+  const querySnapshot = await getDocs(q);
+
+  let userData = null;
+
+  querySnapshot.forEach((doc) => {
+    userData = { id: doc.id, ...doc.data() }; // Kullanıcı verilerini alma
+  });
+
+  return userData;
 }
