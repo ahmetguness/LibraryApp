@@ -46,7 +46,7 @@ function LoginScreen({ navigation, route }) {
       );
 
       if (isMemberValid) {
-        navigation.navigate("MemberCategoriesScreen");
+        navigation.navigate("MemberHomeScreen");
       } else {
         Alert.alert(
           "Hatalı kullanıcı adı veya şifre girdiniz. Lütfen tekrar deneyin."

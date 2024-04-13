@@ -36,6 +36,7 @@ function CategoryList({ nextPage }) {
           <CategoryCard
             categoryName={item.categoryName}
             onPressFunc={() => onPressFunc(item.id)}
+            imgSource={item.categoryImage}
           />
         )}
       />

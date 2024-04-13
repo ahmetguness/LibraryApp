@@ -2,12 +2,16 @@ import { StyleSheet } from "react-native";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../../theme/colors";
 
-function CategoryCard({ categoryName, onPressFunc }) {
+function CategoryCard({ categoryName, onPressFunc, imgSource }) {
   return (
-    <TouchableOpacity style={styles.root} onPress={onPressFunc} >
-      <Image style={styles.img} source={require("../../assets/books.png")} />
+    <TouchableOpacity
+      style={styles.root}
+      onPress={onPressFunc}
+      activeOpacity={0.8}
+    >
+      <Image style={styles.img} source={{ uri: imgSource }} />
       <View style={styles.textContainer}>
-        <Text style={styles.text} >{categoryName}</Text>
+        <Text style={styles.text}>{categoryName}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -41,6 +45,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });
