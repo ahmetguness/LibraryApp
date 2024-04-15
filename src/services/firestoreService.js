@@ -73,15 +73,16 @@ export async function getUserId(userKind, userName, password) {
 
   return userId;
 }
+
 export async function getUserById(userKind, userId) {
   const userRef = collection(db, userKind);
-  const q = query(userRef, where("__name__", "==", userId)); // Firestore'da idye göre sorgu
+  const q = query(userRef, where("__name__", "==", userId));
   const querySnapshot = await getDocs(q);
 
   let userData = null;
 
   querySnapshot.forEach((doc) => {
-    userData = { id: doc.id, ...doc.data() }; // Kullanıcı verilerini alma
+    userData = { id: doc.id, ...doc.data() };
   });
 
   return userData;
