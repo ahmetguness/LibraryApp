@@ -1,3 +1,4 @@
+import BookSlice from "./BookSlice";
 import UserSlice from "./UserSlice";
 
 const { configureStore } = require("@reduxjs/toolkit");
@@ -7,6 +8,7 @@ const store = configureStore({
   reducer: {
     login: Slice.reducer,
     user: UserSlice.reducer,
+    book: BookSlice.reducer,
   },
 });
 
