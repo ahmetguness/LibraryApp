@@ -5,6 +5,7 @@ import {
   getDocs,
   getDoc,
   doc,
+  updateDoc,
 } from "firebase/firestore";
 import db from "./config";
 
@@ -87,3 +88,61 @@ export async function getUserById(userKind, userId) {
 
   return userData;
 }
+
+
+export async function updateMemberFavorites(memberId, favoritesToAdd) {
+  try {
+    const memberRef = doc(db, "member", memberId);
+    const memberDoc = await getDoc(memberRef);
+
+    if (memberDoc.exists()) {
+      const memberData = memberDoc.data();
+
+      // Eğer memberFavorites alanı yoksa oluştur
+      if (!memberData.memberFavorites) {
+        memberData.memberFavorites = {};
+      }
+
+      // favoritesToAdd parametresindeki her kategori için işlem yap
+      for (const [categoryId, bookIds] of Object.entries(favoritesToAdd)) {
+        // Eğer categoryId zaten memberFavorites içinde varsa, favori kitapları güncelle
+        if (memberData.memberFavorites[categoryId]) {
+          // bookIds'yi bir Set'e dönüştürerek uniq değerleri al
+          const existingFavorites = new Set(memberData.memberFavorites[categoryId]);
+          const newFavorites = new Set(bookIds);
+
+          // Yeni favori kitapları ekle
+          newFavorites.forEach(bookId => existingFavorites.add(bookId));
+
+          // Güncellenmiş favori kitapları array'e dönüştür
+          memberData.memberFavorites[categoryId] = [...existingFavorites];
+        } else {
+          // Eğer categoryId yoksa, direkt olarak yeni favori kitapları ata
+          memberData.memberFavorites[categoryId] = bookIds;
+        }
+      }
+
+      // Güncellenmiş member verisini Firestore'a gönder
+      await updateDoc(memberRef, memberData);
+    } else {
+      console.log("Member not found!");
+    }
+  } catch (error) {
+    console.error("Error updating member favorites:", error);
+  }
+}
+
+
+// export async function updateMemberFavorites(memberId, newFavorites) {
+//   try {
+//     const memberRef = doc(db, "member", memberId);
+//     await updateDoc(memberRef, {
+//       memberFavorites: newFavorites,
+//     });
+
+//     return true;
+//   } catch (error) {
+//     console.error("Favori kitaplar güncellenirken bir hata oluştu:", error);
+//     return false;
+//   }
+// }

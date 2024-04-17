@@ -6,8 +6,11 @@ import {
   Text,
   View,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import COLOR from "../../theme/colors";
+import FavButton from "../../components/buttons/FavButton";
+import { updateUserFavoriteBooks } from "../../redux/UserSlice";
+import { updateMemberFavorites } from "../../services/firestoreService";
 
 function Features({ title, text }) {
   return (
@@ -20,7 +23,23 @@ function Features({ title, text }) {
 
 export default function MemberBookDetailsScreen() {
   const selectedBookData = useSelector((state) => state.book.selectedBook);
-  console.log(selectedBookData);
+  const bookId = selectedBookData.bookId;
+  const categoryId = useSelector((state) => state.login.selectedCategoryId);
+  const favs = useSelector((state) => state.user);
+  console.log(favs.userFavoriteBooks);
+  const dispatch = useDispatch();
+
+  const btnName =
+    favs.userFavoriteBooks[categoryId] &&
+    favs.userFavoriteBooks[categoryId].includes(bookId)
+      ? "Favorilerden Çıkar"
+      : "Favorilere Ekle";
+
+  async function onPressFunc() {
+    await updateMemberFavorites(favs.userInfo.userId, favs.userFavoriteBooks);
+    dispatch(updateUserFavoriteBooks({ categoryId, bookId }));
+  }
+
   return (
     <ImageBackground
       style={styles.root}
@@ -41,6 +60,10 @@ export default function MemberBookDetailsScreen() {
               title={"Basım Yılı: "}
               text={selectedBookData.bookYearOfPublication}
             />
+            <View style={styles.btnContainer}>
+              <FavButton btnName={btnName} onPressFunc={onPressFunc} />
+              <FavButton btnName={"Ayırt"} />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -75,6 +98,7 @@ const styles = StyleSheet.create({
   titleTitle: {
     fontWeight: "bold",
     fontSize: 20,
+    marginRight: 6,
   },
   line: {
     flexDirection: "row",
@@ -84,9 +108,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.primaryBlue,
     height: 60,
     borderRadius: 8,
+    maxWidth: "98%",
   },
   titleText: {
     fontSize: 18,
     color: COLOR.white,
+  },
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 });
