@@ -47,7 +47,10 @@ function MemberHomeScreen({ navigation }) {
           buttonName={"Kategorileri Gör"}
           onPressFunc={() => navigation.navigate("MemberCategoriesScreen")}
         />
-        <ButtonCards buttonName={"Favorilerim"} />
+        <ButtonCards
+          buttonName={"Favorilerim"}
+          onPressFunc={() => navigation.navigate("MemberFavoritesScreen")}
+        />
       </View>
       <View style={styles.buttonsContainer}>
         <ButtonCards buttonName={"Bilgilerimi Güncelle"} />

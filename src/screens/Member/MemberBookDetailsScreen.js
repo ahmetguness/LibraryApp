@@ -10,7 +10,10 @@ import { useSelector, useDispatch } from "react-redux";
 import COLOR from "../../theme/colors";
 import FavButton from "../../components/buttons/FavButton";
 import { updateUserFavoriteBooks } from "../../redux/UserSlice";
-import { updateMemberFavorites } from "../../services/firestoreService";
+import {
+  fetchMemberFavorites,
+  updateMemberFavorites,
+} from "../../services/firestoreService";
 
 function Features({ title, text }) {
   return (
@@ -26,7 +29,6 @@ export default function MemberBookDetailsScreen() {
   const bookId = selectedBookData.bookId;
   const categoryId = useSelector((state) => state.login.selectedCategoryId);
   const favs = useSelector((state) => state.user);
-  console.log(favs.userFavoriteBooks);
   const dispatch = useDispatch();
 
   const btnName =
@@ -36,8 +38,11 @@ export default function MemberBookDetailsScreen() {
       : "Favorilere Ekle";
 
   async function onPressFunc() {
-    await updateMemberFavorites(favs.userInfo.userId, favs.userFavoriteBooks);
-    dispatch(updateUserFavoriteBooks({ categoryId, bookId }));
+    await updateMemberFavorites(favs.userInfo.userId, {
+      [categoryId]: [bookId],
+    });
+    let favArr = await fetchMemberFavorites(favs.userInfo.userId);
+    dispatch(updateUserFavoriteBooks(favArr));
   }
 
   return (
