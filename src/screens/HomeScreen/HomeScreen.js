@@ -10,9 +10,10 @@ function HomeScreen({ navigation }) {
     >
       <View style={styles.textContainer}>
         <Text style={styles.text}>
-          Get ready to explore the captivating world of books. Dive into stories
-          that will expand your mind, ignite your imagination, and take you on
-          unforgettable journeys. Let's begin this literary adventure together!
+          Kitapların büyüleyici dünyasını keşfetmeye hazır olun. Zihninizi
+          genişletecek, hayal gücünüzü ateşleyecek ve sizi unutulmaz
+          yolculuklara çıkaracak hikayelere dalın. Gelin bu edebi maceraya
+          birlikte başlayalım!
         </Text>
         <PrimaryButton
           buttonName={"Get Started"}
@@ -24,3 +25,5 @@ function HomeScreen({ navigation }) {
 }
 
 export default HomeScreen;
+
+// Get ready to explore the captivating world of books. Dive into stories that will expand your mind, ignite your imagination, and take you on unforgettable journeys. Let's begin this literary adventure together!

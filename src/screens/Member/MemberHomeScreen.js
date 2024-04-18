@@ -20,11 +20,10 @@ function MemberHomeScreen({ navigation }) {
             userId: loggedInUserId,
             userName: user.memberUserName,
             userPassword: user.memberPassword,
+            userFavoriteBooks: user.memberFavorites,
           })
         );
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+      } catch (error) {}
     };
 
     if (loggedInUserId) {
@@ -33,7 +32,6 @@ function MemberHomeScreen({ navigation }) {
   }, [loggedInUserId]);
 
   const userInfo = useSelector((state) => state.user.userInfo);
-
   return (
     <ImageBackground
       style={styles.root}
@@ -58,7 +56,7 @@ function MemberHomeScreen({ navigation }) {
       </View>
       <View style={styles.buttonsContainer}>
         <ButtonCards buttonName={"Mesaj"} />
-        <ButtonCards buttonName={"İletişim"} />
+        <ButtonCards buttonName={"Çıkış Yap"} />
       </View>
     </ImageBackground>
   );

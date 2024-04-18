@@ -133,21 +133,40 @@ export async function fetchMemberFavorites(memberId) {
 
     if (memberDoc.exists()) {
       const memberData = memberDoc.data();
-      
-      // Üye favorileri mevcutsa, bunları döndür
+
       if (memberData.memberFavorites) {
         return memberData.memberFavorites;
       } else {
-        // Üyenin favori kitapları yoksa boş bir obje döndür
         return {};
       }
     } else {
-      // Üye bulunamadıysa null döndür
       return null;
     }
   } catch (error) {
     console.error("Error fetching member favorites:", error);
-    // Hata durumunda null döndür
+    return null;
+  }
+}
+
+export async function fetchBookDetails(favorites) {
+  try {
+    const bookDetails = [];
+
+    // Her bir kategori için kitapları çekme işlemi
+    for (const categoryId in favorites) {
+      const bookIds = favorites[categoryId];
+
+      // Kategoriye ait kitapları Firestore'dan çekme
+      const books = await listBooksInCategory(categoryId);
+
+      // Favori kitapları detaylarıyla birlikte saklama
+      const categoryBooks = books.filter(book => bookIds.includes(book.id));
+      bookDetails.push(...categoryBooks);
+    }
+
+    return bookDetails;
+  } catch (error) {
+    console.error("Error fetching book details:", error);
     return null;
   }
 }

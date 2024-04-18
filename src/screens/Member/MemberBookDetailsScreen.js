@@ -9,11 +9,13 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import COLOR from "../../theme/colors";
 import FavButton from "../../components/buttons/FavButton";
-import { updateUserFavoriteBooks } from "../../redux/UserSlice";
+// import { updateUserFavoriteBooks } from "../../redux/UserSlice";
 import {
   fetchMemberFavorites,
+  // fetchMemberFavorites,
   updateMemberFavorites,
 } from "../../services/firestoreService";
+import { updateUserFavoriteBooks } from "../../redux/UserSlice";
 
 function Features({ title, text }) {
   return (
@@ -43,6 +45,7 @@ export default function MemberBookDetailsScreen() {
     });
     let favArr = await fetchMemberFavorites(favs.userInfo.userId);
     dispatch(updateUserFavoriteBooks(favArr));
+    console.log(favArr);
   }
 
   return (
@@ -67,7 +70,10 @@ export default function MemberBookDetailsScreen() {
             />
             <View style={styles.btnContainer}>
               <FavButton btnName={btnName} onPressFunc={onPressFunc} />
-              <FavButton btnName={"Ayırt"} />
+              <FavButton
+                btnName={"Ayırt"}
+                onPressFunc={() => console.log("Ayırt")}
+              />
             </View>
           </View>
         </View>

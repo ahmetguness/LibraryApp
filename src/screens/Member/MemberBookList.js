@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, ImageBackground, StyleSheet } from "react-native";
-import { listBooksInCategory } from "../../services/firestoreService";
+import { fetchMemberFavorites, listBooksInCategory } from "../../services/firestoreService";
 import { useSelector } from "react-redux";
 import CategoryCard from "../../components/Categories/CategoryCard";
 import { useDispatch } from "react-redux";
 import { changeSelectedBook } from "../../redux/BookSlice";
+import { updateUserFavoriteBooks } from "../../redux/UserSlice";
 
 function MemberBookList({ navigation }) {
   const [books, setBooks] = useState([]);
@@ -21,8 +22,12 @@ function MemberBookList({ navigation }) {
   }, [selectedCategoryId]);
 
   const dispatch = useDispatch();
-  function onPressFunc(item) {
+  const userId = useSelector((state)=>state.user.userInfo.userId)
+
+  async function onPressFunc(item) {
     dispatch(changeSelectedBook(item));
+    let favArr = await fetchMemberFavorites(userId);
+    dispatch(updateUserFavoriteBooks(favArr));
     navigation.navigate("MemberBookDetailsScreen");
   }
 
