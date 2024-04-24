@@ -7,6 +7,7 @@ import AdminHomeScreen from "../screens/Admin/AdminHomeScreen";
 import MemberHomeScreen from "../screens/Member/MemberHomeScreen";
 import MemberBookDetailsScreen from "../screens/Member/MemberBookDetailsScreen";
 import MemberFavoritesScreen from "../screens/Member/MemberFavoritesScreen";
+import MessageScreen from "../screens/Message/MessageScreen";
 
 function StackNav() {
   const Stack = createStackNavigator();
@@ -34,6 +35,7 @@ function StackNav() {
         name="MemberFavoritesScreen"
         component={MemberFavoritesScreen}
       />
+      <Stack.Screen name="MessageScreen" component={MessageScreen} />
     </Stack.Navigator>
   );
 }

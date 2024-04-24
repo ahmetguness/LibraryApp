@@ -55,7 +55,10 @@ function MemberHomeScreen({ navigation }) {
         <ButtonCards buttonName={"Kitaplarım"} />
       </View>
       <View style={styles.buttonsContainer}>
-        <ButtonCards buttonName={"Mesaj"} />
+        <ButtonCards
+          buttonName={"Mesaj"}
+          onPressFunc={() => navigation.navigate("MessageScreen")}
+        />
         <ButtonCards buttonName={"Çıkış Yap"} />
       </View>
     </ImageBackground>
